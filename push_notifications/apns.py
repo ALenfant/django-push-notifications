@@ -10,7 +10,7 @@ import struct
 import socket
 import time
 from contextlib import closing
-from binascii import unhexlify
+from binascii import hexlify, unhexlify
 from django.core.exceptions import ImproperlyConfigured
 from . import NotificationError
 from .settings import PUSH_NOTIFICATIONS_SETTINGS as SETTINGS
@@ -231,5 +231,5 @@ def apns_fetch_inactive_ids():
 		# Maybe we should have a flag to return the timestamp?
 		# It doesn't seem that useful right now, though.
 		for tStamp, registration_id in _apns_receive_feedback(socket):
-			inactive_ids.append(registration_id.encode('hex'))
+			inactive_ids.append(hexlify(registration_id))
 		return inactive_ids
